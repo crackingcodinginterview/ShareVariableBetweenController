@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="test">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Share Variable</title>
+</head>
+<body>
+<div data-ng-controller="Controller1 as vm">
+    {{vm.BienDungChung}}
+</div>
+<div data-ng-controller="Controller2 as vm">
+    {{vm.BienDungChung}}
+</div>
+<script src="../angular.js"></script>
+<script>
+    (function(){
+        var app = angular.module('test', []);
+        testService.$inject = [];
+        function testService(){
+            var service = {};
+            service.bienChiaSe = 5;
+            return service;
+        }
+        app.factory('TestService', testService);
+
+        controller1.$inject = ['TestService'];
+        function controller1(testService){
+            var vm = this;
+            vm.BienDungChung = testService.bienChiaSe;
+        }
+        app.controller('Controller1', controller1);
+
+        controller2.$inject = ['TestService'];
+        function controller2(testService){
+            var vm = this;
+            vm.BienDungChung = testService.bienChiaSe;
+        }
+        app.controller('Controller2', controller2);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="test">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Share Variable</title>
+</head>
+<body>
+<div ng-controller="Controller1 as vm">
+    {{vm.BienDungChung}}
+</div>
+<div ng-controller="Controller2 as vm">
+    {{vm.BienDungChung}}
+</div>
+<script src="../angular.js"></script>
+<script>
+    (function(){
+        var app = angular.module('test', []);
+
+        controller1.$inject = ['$rootScope', '$timeout'];
+        function controller1($rootScope, $timeout){
+            var vm = this;
+            $timeout(function(){
+                vm.bienChiaSe = 15;
+                $rootScope.$broadcast('finish', vm.bienChiaSe);
+            }, 1000);
+        }
+        app.controller('Controller1', controller1);
+
+        controller2.$inject = ['$rootScope'];
+        function controller2($rootScope){
+            var vm = this;
+            $rootScope.$on('finish', function(from, bienChiaSe){
+                vm.BienDungChung = bienChiaSe;
+            });
+        }
+        app.controller('Controller2', controller2);
+    }());
+</script>
+</body>
+</html>
